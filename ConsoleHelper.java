@@ -16,23 +16,23 @@ public class ConsoleHelper {
             try {
                 String result = bis.readLine();
                 if (result.isEmpty()) {
-                    System.out.println("You did not enter data. Please, reenter: ");
+                    writeMessage("You did not enter data. Please, reenter: ");
                     continue;
                 }
                 return result;
             } catch (IOException e) {
-                System.out.println("Oops! Please, reenter: ");
+                writeMessage("Oops! Please, reenter: ");
             }
         }
     }
 
     public static String askCurrencyCode(){
         String result;
-        System.out.println("Please, enter currency code: ");
+        writeMessage("Please, enter currency code: ");
         do {
             result = readString();
             if (result.length() != 3)
-                System.out.println("Error, the code must consist of 3 symbols. Reenter, please:");
+                writeMessage("Error, the code must consist of 3 symbols reenter, please:");
         } while (result.length() != 3);
 
         return result.toUpperCase();
@@ -40,19 +40,32 @@ public class ConsoleHelper {
     }
 
     public static String[] getValidTwoDigits(String currencyCode) {
-        System.out.println("Please, enter face value and number of banknotes:");
+        writeMessage("Please, enter " + currencyCode + " face value and number of banknotes:");
         while (true) {
             try {
                 String[] result = readString().split(" ", 2);
                 int a = Integer.parseInt(result[0]);
                 int b = Integer.parseInt(result[1]);
                 if (a <= 0 || b <= 0) {
-                    System.out.println("The entered data is not correct. Reenter, please:");
+                    writeMessage("The entered data is not correct reenter, please:");
                     continue;
                 }
                 return result;
             } catch (Exception e) {
-                System.out.println("The entered data is not correct. Reenter, please:");
+                writeMessage("The entered data is not correct reenter, please:");
+            }
+        }
+    }
+
+    public static Operation askOperation(){
+        writeMessage("Select operation:");
+        while (true){
+            try {
+                String input = readString();
+                int operCode = Integer.parseInt(input);
+                return Operation.getAllowableOperationByOrdinal(operCode);
+            } catch (Exception e){
+                writeMessage("Error. Reenter, please: ");
             }
         }
     }
