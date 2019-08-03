@@ -68,12 +68,8 @@ public class CurrencyManipulator {
                     break;
                 }
             }
-
-            if (flag){
+            if (flag)
                 listDen.removeIf(den -> den == maxDen);
-                listRes.clear();
-            }
-
         }
         if (listDen.isEmpty()){
             throw new NotEnoughMoneyException();

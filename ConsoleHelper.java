@@ -5,9 +5,11 @@ import com.javarush.task.task26.task2613.exception.InterruptOperationException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ResourceBundle;
 
 public class ConsoleHelper {
     private static BufferedReader bis = new BufferedReader(new InputStreamReader(System.in));
+    private static ResourceBundle res = ResourceBundle.getBundle(CashMachine.RESOURCE_PATH + "common_en");
 
     public static void writeMessage(String message) {
         System.out.println(message);
@@ -18,59 +20,61 @@ public class ConsoleHelper {
             try {
                 String result = bis.readLine();
                 if (result.isEmpty()) {
-                    writeMessage("You did not enter data. Please, reenter: ");
+                    writeMessage(res.getString("invalid.data"));
                     continue;
                 }
                 if (result.equalsIgnoreCase("exit"))
                     throw new InterruptOperationException();
                 return result;
             } catch (IOException e) {
-                writeMessage("Oops! Please, reenter: ");
+                writeMessage(res.getString("invalid.data"));
             }
         }
     }
 
     public static String askCurrencyCode() throws InterruptOperationException {
         String result;
-        writeMessage("Please, enter currency code: ");
+        writeMessage(res.getString("choose.currency.code"));
         do {
             result = readString();
             if (result.length() != 3)
-                writeMessage("Error, the code must consist of 3 symbols reenter, please:");
+                writeMessage(res.getString("invalid.data"));
         } while (result.length() != 3);
-
         return result.toUpperCase();
-
     }
 
     public static String[] getValidTwoDigits(String currencyCode) throws InterruptOperationException {
-        writeMessage("Please, enter " + currencyCode + " face value and number of banknotes:");
+        writeMessage(String.format(res.getString("choose.denomination.and.count.format"), currencyCode));
         while (true) {
             String[] result = readString().split(" ", 2);
             try {
                 int a = Integer.parseInt(result[0]);
                 int b = Integer.parseInt(result[1]);
                 if (a <= 0 || b <= 0) {
-                    writeMessage("The entered data is not correct reenter, please:");
+                    writeMessage(res.getString("invalid.data"));
                     continue;
                 }
                 return result;
             } catch (Exception e) {
-                writeMessage("The entered data is not correct reenter, please:");
+                writeMessage(res.getString("invalid.data"));
             }
         }
     }
 
     public static Operation askOperation() throws InterruptOperationException {
-        writeMessage("Select operation:");
+        writeMessage(res.getString("choose.operation"));
         while (true) {
             String input = readString();
             try {
                 int operCode = Integer.parseInt(input);
                 return Operation.getAllowableOperationByOrdinal(operCode);
             } catch (Exception e) {
-                writeMessage("Error. Reenter, please: ");
+                writeMessage(res.getString("invalid.data"));
             }
         }
+    }
+
+    public static void printExitMessage(){
+        writeMessage(res.getString("the.end"));
     }
 }
