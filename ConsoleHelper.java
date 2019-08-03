@@ -1,5 +1,7 @@
 package com.javarush.task.task26.task2613;
 
+import com.javarush.task.task26.task2613.exception.InterruptOperationException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,11 +9,11 @@ import java.io.InputStreamReader;
 public class ConsoleHelper {
     private static BufferedReader bis = new BufferedReader(new InputStreamReader(System.in));
 
-    public static void writeMessage(String message){
+    public static void writeMessage(String message) {
         System.out.println(message);
     }
 
-    public static String readString(){
+    public static String readString() throws InterruptOperationException {
         while (true) {
             try {
                 String result = bis.readLine();
@@ -19,6 +21,8 @@ public class ConsoleHelper {
                     writeMessage("You did not enter data. Please, reenter: ");
                     continue;
                 }
+                if (result.equalsIgnoreCase("exit"))
+                    throw new InterruptOperationException();
                 return result;
             } catch (IOException e) {
                 writeMessage("Oops! Please, reenter: ");
@@ -26,7 +30,7 @@ public class ConsoleHelper {
         }
     }
 
-    public static String askCurrencyCode(){
+    public static String askCurrencyCode() throws InterruptOperationException {
         String result;
         writeMessage("Please, enter currency code: ");
         do {
@@ -39,11 +43,11 @@ public class ConsoleHelper {
 
     }
 
-    public static String[] getValidTwoDigits(String currencyCode) {
+    public static String[] getValidTwoDigits(String currencyCode) throws InterruptOperationException {
         writeMessage("Please, enter " + currencyCode + " face value and number of banknotes:");
         while (true) {
+            String[] result = readString().split(" ", 2);
             try {
-                String[] result = readString().split(" ", 2);
                 int a = Integer.parseInt(result[0]);
                 int b = Integer.parseInt(result[1]);
                 if (a <= 0 || b <= 0) {
@@ -57,14 +61,14 @@ public class ConsoleHelper {
         }
     }
 
-    public static Operation askOperation(){
+    public static Operation askOperation() throws InterruptOperationException {
         writeMessage("Select operation:");
-        while (true){
+        while (true) {
+            String input = readString();
             try {
-                String input = readString();
                 int operCode = Integer.parseInt(input);
                 return Operation.getAllowableOperationByOrdinal(operCode);
-            } catch (Exception e){
+            } catch (Exception e) {
                 writeMessage("Error. Reenter, please: ");
             }
         }

@@ -5,8 +5,9 @@ public enum Operation {
     DEPOSIT,
     WITHDRAW,
     EXIT;
-    public static Operation getAllowableOperationByOrdinal(Integer i){
-        switch (i){
+
+    public static Operation getAllowableOperationByOrdinal(Integer i) {
+        switch (i) {
             case 1:
                 return INFO;
             case 2:

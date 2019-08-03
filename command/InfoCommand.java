@@ -8,13 +8,13 @@ class InfoCommand implements Command {
     @Override
     public void execute() {
         boolean atmIsEmpty = true;
-       for (CurrencyManipulator curMan : CurrencyManipulatorFactory.getAllCurrencyManipulators()) {
-           if (curMan.hasMoney()){
-               atmIsEmpty = false;
-               ConsoleHelper.writeMessage(curMan.getCurrencyCode() + " - " + curMan.getTotalAmount());
-           }
-       }
-       if (atmIsEmpty) ConsoleHelper.writeMessage("No money available.");
+        for (CurrencyManipulator curMan : CurrencyManipulatorFactory.getAllCurrencyManipulators()) {
+            if (curMan.hasMoney()) {
+                atmIsEmpty = false;
+                ConsoleHelper.writeMessage(curMan.getCurrencyCode() + " - " + curMan.getTotalAmount());
+            }
+        }
+        if (atmIsEmpty) ConsoleHelper.writeMessage("No money available.");
 
     }
 }

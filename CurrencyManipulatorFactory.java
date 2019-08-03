@@ -5,12 +5,13 @@ import java.util.*;
 public class CurrencyManipulatorFactory {
     private static Map<String, CurrencyManipulator> map = new HashMap<>();
 
-    private CurrencyManipulatorFactory() {}
+    private CurrencyManipulatorFactory() {
+    }
 
-    public static CurrencyManipulator getManipulatorByCurrencyCode(String currencyCode){
+    public static CurrencyManipulator getManipulatorByCurrencyCode(String currencyCode) {
         currencyCode = currencyCode.toUpperCase();
         if (map.containsKey(currencyCode)) return map.get(currencyCode);
-        else{
+        else {
             CurrencyManipulator currencyManipulator = new CurrencyManipulator(currencyCode);
             map.put(currencyCode, currencyManipulator);
             return currencyManipulator;
@@ -18,7 +19,7 @@ public class CurrencyManipulatorFactory {
 
     }
 
-    public static Collection<CurrencyManipulator> getAllCurrencyManipulators(){
+    public static Collection<CurrencyManipulator> getAllCurrencyManipulators() {
         List<CurrencyManipulator> result = new ArrayList<>();
         map.forEach((key, value) -> result.add(value));
         return result;
